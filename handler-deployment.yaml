@@ -17,5 +17,32 @@ spec:
       containers:
       - name: handler
         image: docker.io/rxdperez/testrepo:handlerv1
+        env:
+          - name: STATSD_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: DD_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
         ports:
         - containerPort: 8085
+---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  labels:
+#    app: handler
+#  name: handler
+#  namespace: default
+#spec:
+#  ports:
+#    - name: http
+#      port: 80
+#      protocol: TCP
+#      targetPort: 8060
+#  selector:
+#    app: handler
+#  type: LoadBalancer
+
